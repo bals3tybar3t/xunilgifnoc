@@ -4,7 +4,8 @@
 set -x
 
 echo "Initialising..."
-sudo find / -type f -exec md5sum {} \; 2>/dev/null
+# Exclude /proc, /sys, and other virtual filesystems
+sudo find / -path /proc -prune -o -path /sys -prune -o -type f -exec md5sum {} \; 2>/dev/null
 
 echo "Purging unnecessary packages..."
 sudo apt purge nmap* -y
